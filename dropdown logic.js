@@ -1,6 +1,6 @@
 // Function to update the status of the selected option
 function updateSelectedOption1(selectedOptionId1) {
-    const options1 = document.querySelectorAll('.dropdown-content1 a');
+    const options1 = document.querySelectorAll('.dropdown1-content a');
     options1.forEach(option => {
         if (option.id === selectedOptionId1) {
             option.textContent = `✔️ ${option.textContent.replace('✔️ ', '')}`;  // Add a tick
@@ -11,8 +11,8 @@ function updateSelectedOption1(selectedOptionId1) {
 }
 
 // Function to update the status of the selected option
-function updateSelectedOption2(selectedOptionId1) {
-    const options2 = document.querySelectorAll('.dropdown-content2 a');
+function updateSelectedOption2(selectedOptionId2) {
+    const options2 = document.querySelectorAll('.dropdown2-content a');
     options2.forEach(option => {
         if (option.id === selectedOptionId2) {
             option.textContent = `✔️ ${option.textContent.replace('✔️ ', '')}`;  // Add a tick
@@ -63,9 +63,9 @@ document.getElementById('generator-option').addEventListener('click', () => {
 // Settings dropdown
 // Handler for clicking on the "Dark mode" option
 document.getElementById('dark_mode-option').addEventListener('click', () => {
-    updateSelectedOption('dark_mode-option');
+    updateSelectedOption2('dark_mode-option');
 });
 // Handler for clicking on the "Standard mode" option
 document.getElementById('standard_mode-option').addEventListener('click', () => {
-    updateSelectedOption('standard_mode-option');
+    updateSelectedOption2('standard_mode-option');
 });
