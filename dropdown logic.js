@@ -28,6 +28,7 @@ document.getElementById('drag-option').addEventListener('click', () => {
     updateSelectedOption1('drag-option');
     isDragMode = true;  // Switch on the moving mode with LMB
     canvas.style.cursor = 'grab';
+    showNotification('drag-option have chosen!', 3000);
 });
 
 // Handler for clicking on the "Wire" option
@@ -35,6 +36,8 @@ document.getElementById('wire-option').addEventListener('click', () => {
     updateSelectedOption1('wire-option');
     isDragMode = false;  // Enable the mode for moving only with the middle button
     canvas.style.cursor = 'crosshair';
+    showNotification('wire-option have chosen!', 3000);
+    selectedtool = 'wire';
 });
 
 // Handler for clicking on the "Transformer" option

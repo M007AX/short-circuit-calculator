@@ -7,6 +7,10 @@ let isDragging = false;
 let dragStartX = 0, dragStartY = 0;
 let isDragMode = true; // Default: LMB for dragging
 let mouseX = 0, mouseY = 0; // Mouse position
+let startX = null, startY = null;  // Starting point
+let isDrawing = false;  // Flag for drawing
+
+let endX = null, endY = null;
 
 // Grid drawing function
 function drawGrid() {
@@ -51,7 +55,7 @@ function drawMousePosition() {
     const logicalY = (mouseY - offsetY) / scale;
 
     ctx.save();
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "white";
     ctx.font = "16px Arial";
     ctx.fillText(`X: ${logicalX.toFixed(2)}, Y: ${logicalY.toFixed(2)}`, 10, 20);
     ctx.restore();
@@ -59,29 +63,140 @@ function drawMousePosition() {
 
 // Mouse down event
 canvas.addEventListener('mousedown', (e) => {
-    if (e.button === 0 && isDragMode) { // Left button for dragging
+    if (e.button === 0 && isDragMode && !isDrawing) { // LMB for dragging
+        // Start dragging
         isDragging = true;
         dragStartX = e.clientX - offsetX;
         dragStartY = e.clientY - offsetY;
+    }
+    else if (e.button === 0 && !isDragMode && !isDrawing) { // LMB for drawing
+        // Calculating the position on the canvas
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        // Tie to the nearest mesh node
+        const logicalX = (mouseX - offsetX) / scale;
+        const logicalY = (mouseY - offsetY) / scale;
+        const gridSize = 50;
+
+        const snapX = Math.round(logicalX / gridSize) * gridSize;
+        const snapY = Math.round(logicalY / gridSize) * gridSize;
+
+        // Convert back to kanvas coordinates
+        startX = snapX * scale + offsetX;
+        startY = snapY * scale + offsetY;
+
+        // Начинаем рисовать
+        isDrawing = true;
+
+        // Draw a coloured circle at the starting point
+        ctx.beginPath();
+        ctx.arc(startX, startY, 20 * scale, 0, 2 * Math.PI);
+        ctx.fillStyle = "#202020";  // Fill
+        ctx.fill();
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.stroke();
     }
 });
 
 // Mouse move event
 canvas.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX - canvas.offsetLeft;
-    mouseY = e.clientY - canvas.offsetTop;
-
     if (isDragging) {
         offsetX = e.clientX - dragStartX;
         offsetY = e.clientY - dragStartY;
+        drawGrid();
     }
 
-    drawGrid();
+    if (isDrawing) {
+        // Calculate the current mouse position
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        // Tie to the nearest mesh node
+        const logicalX = (mouseX - offsetX) / scale;
+        const logicalY = (mouseY - offsetY) / scale;
+        const gridSize = 50;
+
+        const snapX = Math.round(logicalX / gridSize) * gridSize;
+        const snapY = Math.round(logicalY / gridSize) * gridSize;
+
+        // Convert back to kanvas coordinates
+        const snapCanvasX = snapX * scale + offsetX;
+        const snapCanvasY = snapY * scale + offsetY;
+
+        // Clear the canvas and draw the grid and initial circle
+        drawGrid();
+
+        // Draw a line from the start point to the current point
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(snapCanvasX, snapCanvasY);
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
 });
 
 // Mouse up event
-canvas.addEventListener('mouseup', () => {
-    isDragging = false;
+canvas.addEventListener('mouseup', (e) => {
+    if (isDrawing) {
+        // Draw the end circle at the final position
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        // Tie to the nearest mesh node
+        const logicalX = (mouseX - offsetX) / scale;
+        const logicalY = (mouseY - offsetY) / scale;
+        const gridSize = 50;
+
+        const snapX = Math.round(logicalX / gridSize) * gridSize;
+        const snapY = Math.round(logicalY / gridSize) * gridSize;
+
+        // Convert back to kanvas coordinates
+        endX = snapX * scale + offsetX;
+        endY = snapY * scale + offsetY;
+
+        // Check that the start and end points do not coincide
+        if (startX !== endX || startY !== endY) {
+
+            // Draw the line from the start point to the end point
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw the start circle
+            ctx.beginPath();
+            ctx.arc(startX, startY, 20 * scale, 0, 2 * Math.PI);
+            ctx.fillStyle = "#202020";  // Fill
+            ctx.fill();
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw the end circle
+            ctx.beginPath();
+            ctx.arc(endX, endY, 20 * scale, 0, 2 * Math.PI);
+            ctx.fillStyle = "#202020";  // Fill
+            ctx.fill();
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        // Reset drawing state
+        isDrawing = false;
+    }
+
+    if (isDragging) {
+        isDragging = false;
+    }
 });
 
 // Mouse wheel (zoom) event
