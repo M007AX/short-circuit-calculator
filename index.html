@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short circuit calculator</title>
+    <link rel="icon" type="image/png" href="short circuit calculator.png">
+    <link rel='stylesheet' href='styles.css'>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="dropdown">
+            <button>File</button>
+            <div class="dropdown-content1">
+                <a>Export</a>
+                <a>Save</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button>Edit</button>
+            <div class="dropdown-content1">
+                <a>Undo</a>
+                <a>Redo</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button>Draw</button>
+            <div class="dropdown-content1">
+                <a id="drag-option">✔️ Drag</a>
+                <a id="wire-option">Wire</a>
+                <a id="transformer-option">Transformer</a>
+                <a id="autotransformer-option">Autotransformer</a>
+                <a id="generator-option">Synchronous Turbine Generator</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button>Settings</button>
+            <div class="dropdown-content2">
+                <a id="dark_mode-option">Dark mode</a>
+                <a id="standard_mode-option">Standard mode</a>
+            </div>
+        </div>
+    </div>
+    <div class="canvas-container">
+        <canvas id="mainCanvas" width="2000" height="2001"></canvas>
+    </div>
+    <script src="canvas actions.js"></script>
+    <script src="dropdown logic.js"></script>
+    <script src="drawing.js"></script>
+</body>
+</html>
