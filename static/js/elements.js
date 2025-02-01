@@ -1,3 +1,5 @@
+// elements.js
+
 // Class for wire representation
 class Wire {
     constructor(startX, startY, endX, endY, type = null) {
@@ -7,7 +9,6 @@ class Wire {
         this.endY = endY;
         this.length = null; // Wire length, user defined
         this.resistance = null; // Wire resistance, to be calculated
-        this.type = type; // Wire type, user defined
     }
 }
 

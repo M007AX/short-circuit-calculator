@@ -1,3 +1,5 @@
+// notifier.js
+
 function showNotification(message, duration = 3000) {
     const container = document.getElementById('notifier-container');
 

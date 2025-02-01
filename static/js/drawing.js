@@ -1,3 +1,5 @@
+// drawing.js
+
 // Current tool selection
 let tool = null;
 
@@ -13,7 +15,8 @@ let startNode = null;
 
 // Mouse events for wire drawing
 canvas.addEventListener('mousedown', (e) => {
-    if (tool !== 'wire') return; // Allow drawing only if Wire is selected
+    if (tool !== 'wire' && tool !== 'transformer' && tool !== 'autotransformer' && tool !== 'generator') return;
+
 
     const { x, y } = toLogicalCoords(e.clientX, e.clientY);
 

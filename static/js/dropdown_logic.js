@@ -1,3 +1,5 @@
+// dropdown_logit.js
+
 // Function to update the status of the selected option
 function updateSelectedOption1(selectedOptionId1) {
     const options1 = document.querySelectorAll('.dropdown1-content a');
@@ -45,6 +47,8 @@ document.getElementById('transformer-option').addEventListener('click', () => {
     updateSelectedOption1('transformer-option');
     isDragMode = false;  // Enable the mode for moving only with the middle button
     canvas.style.cursor = 'crosshair';
+    showNotification('transformer-option have chosen!', 3000);
+    selectedtool = 'transformer';
 });
 
 // Handler for clicking on the "Autotransformer" option
@@ -52,6 +56,8 @@ document.getElementById('autotransformer-option').addEventListener('click', () =
     updateSelectedOption1('autotransformer-option');
     isDragMode = false;  // Enable the mode for moving only with the middle button
     canvas.style.cursor = 'crosshair';
+    showNotification('autotransformer-option have chosen!', 3000);
+    selectedtool = 'autotransformer';
 });
 
 // Handler for clicking on the "Synchronous Turbine Generator" option
@@ -59,6 +65,8 @@ document.getElementById('generator-option').addEventListener('click', () => {
     updateSelectedOption1('generator-option');
     isDragMode = false;  // Enable the mode for moving only with the middle button
     canvas.style.cursor = 'crosshair';
+    showNotification('generator-option have chosen!', 3000);
+    selectedtool = 'generator';
 });
 
 

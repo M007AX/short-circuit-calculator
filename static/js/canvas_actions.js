@@ -1,3 +1,6 @@
+// canvas_actions.js
+
+
 const canvas = document.getElementById('mainCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -95,7 +98,7 @@ function drawWire(wire, isHighlighted) {
     ctx.moveTo(start.x, start.y);
     ctx.lineTo(end.x, end.y);
     ctx.strokeStyle = isHighlighted ? "cyan" : "white"; // Highlight color
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2 * scale;
     ctx.stroke();
 
     // Draw a circle at the start point
@@ -104,7 +107,7 @@ function drawWire(wire, isHighlighted) {
     ctx.fillStyle = isHighlighted ? "cyan" : "#202020";  // Highlight color
     ctx.fill();
     ctx.strokeStyle = "white";  // Stroke color
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2 * scale;
     ctx.stroke();
 
     // Draw a circle at the end point
@@ -113,9 +116,66 @@ function drawWire(wire, isHighlighted) {
     ctx.fillStyle = isHighlighted ? "cyan" : "#202020";  // Highlight color
     ctx.fill();
     ctx.strokeStyle = "white";  // Stroke color
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2 * scale;
     ctx.stroke();
 }
+
+
+// Function to draw a transformer (line with two circles offset to the left and right of the center)
+function drawTransformer(transformer, isHighlighted) {
+    const start = toCanvasCoords(transformer.startX, transformer.startY);
+    const end = toCanvasCoords(transformer.endX, transformer.endY);
+
+    // Draw the wire line (transformer)
+    ctx.beginPath();
+    ctx.moveTo(start.x, start.y);
+    ctx.lineTo(end.x, end.y);
+    ctx.strokeStyle = isHighlighted ? "cyan" : "white"; // Highlight color
+    ctx.lineWidth = 2 * scale;
+    ctx.stroke();
+
+    // Calculate the center of the line
+    const centerX = (start.x + end.x) / 2;
+    const centerY = (start.y + end.y) / 2;
+
+    // Calculate the direction vector from start to end
+    const dx = end.x - start.x;
+    const dy = end.y - start.y;
+    const length = Math.hypot(dx, dy);
+
+    // Normalize the direction vector
+    const unitX = dx / length;
+    const unitY = dy / length;
+
+    // Calculate the offset for the circles (half the radius)
+    const offset = 20 * scale; // Radius of the circles
+
+    // Calculate the positions for the two circles with offsets
+    const leftCircleX = centerX - offset * unitY;
+    const leftCircleY = centerY + offset * unitX;
+
+    const rightCircleX = centerX + offset * unitY;
+    const rightCircleY = centerY - offset * unitX;
+
+    // Draw the circle on the left side
+    ctx.beginPath();
+    ctx.arc(leftCircleX, leftCircleY, offset, 0, 2 * Math.PI);
+    ctx.fillStyle = isHighlighted ? "cyan" : "#202020";  // Highlight color
+    ctx.fill();
+    ctx.strokeStyle = "white";  // Stroke color
+    ctx.lineWidth = 2 * scale;
+    ctx.stroke();
+
+    // Draw the circle on the right side
+    ctx.beginPath();
+    ctx.arc(rightCircleX, rightCircleY, offset, 0, 2 * Math.PI);
+    ctx.fillStyle = isHighlighted ? "cyan" : "#202020";  // Highlight color
+    ctx.fill();
+    ctx.strokeStyle = "white";  // Stroke color
+    ctx.lineWidth = 2 * scale;
+    ctx.stroke();
+}
+
 
 // Function to draw a node
 function drawNode(node, isHighlighted) {
@@ -126,7 +186,7 @@ function drawNode(node, isHighlighted) {
     ctx.fillStyle = isHighlighted ? "cyan" : "#202020";  // Highlight color
     ctx.fill();
     ctx.strokeStyle = "white";  // Stroke color
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2 * scale;
     ctx.stroke();
 }
 
@@ -293,7 +353,7 @@ canvas.addEventListener('mousemove', (e) => {
         ctx.moveTo(startX, startY);
         ctx.lineTo(snapCanvasX, snapCanvasY);
         ctx.strokeStyle = "white";
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2 * scale;
         ctx.stroke();
     }
 });
