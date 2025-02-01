@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Short circuit calculator</title>
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='short circuit calculator.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='media/short_circuit_calculator.png') }}">
 </head>
 <body>
     <div class="top-bar">
@@ -45,10 +45,10 @@
     <div class="canvas-container">
         <canvas id="mainCanvas" width="1920" height="1080"></canvas>
     </div>
-    <script src="{{ url_for('static', filename='notifier.js') }}"></script>
-    <script src="{{ url_for('static', filename='elements.js') }}"></script>
-    <script src="{{ url_for('static', filename='canvas_actions.js') }}"></script>
-    <script src="{{ url_for('static', filename='dropdown_logic.js') }}"></script>
-    <script src="{{ url_for('static', filename='drawing.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/notifier.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/elements.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/canvas_actions.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dropdown_logic.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/drawing.js') }}"></script>
 </body>
 </html>
